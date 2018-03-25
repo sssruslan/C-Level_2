@@ -13,7 +13,9 @@ using System.Drawing;
 //+ 2. * Заменить кружочки картинками, используя метод DrawImage.
 //+ 3. **Разработать собственный класс заставка SplashScreen, аналогичный классу Game в котором
 //  создайте собственную иерархию объектов и задайте их движение. 
-//- Предусмотреть кнопки - Начало игры, Рекорды, Выход. //- Добавьте на заставку имя автора.
+//+ Предусмотреть кнопки - Начало игры, Рекорды, Выход. 
+//+ Добавьте на заставку имя автора.
+
 
 
 namespace MyGame
@@ -32,7 +34,7 @@ namespace MyGame
             //Game.Draw();
             //Application.Run(form);
 
-            Form form = new Form();
+            Form1 form = new Form1();
             SplashScreen ss_game = new SplashScreen();
             form.Width = 800;
             form.Height = 600;
@@ -41,6 +43,39 @@ namespace MyGame
             form.Show();
             SplashScreen.Draw();
             Application.Run(form);
+        }
+    }
+
+    public partial class Form1 : Form
+    {
+        public Button Start_btn = new Button();
+        public Button Record_btn = new Button();
+        public Button Exit_btn = new Button();
+        public Label Author_lbl = new Label();
+
+        public Form1()
+        {
+            Start_btn.Text = "Начало игры";
+            Start_btn.Size = new Size(100, 20);
+            Start_btn.Location = new Point(10, 10);
+            this.Controls.Add(Start_btn);
+
+            Record_btn.Text = "Рекорды";
+            Record_btn.Size = new Size(60, 20);
+            Record_btn.Location = new Point(120, 10);
+            this.Controls.Add(Record_btn);
+
+            Exit_btn.Text = "Выход";
+            Exit_btn.Size = new Size(60, 20);
+            Exit_btn.Location = new Point(190, 10);
+            this.Controls.Add(Exit_btn);
+
+            Author_lbl.Text = "Автор: Сагитов Р.Р.";
+            Author_lbl.BackColor = Color.Black;
+            Author_lbl.ForeColor = Color.White;
+            Author_lbl.Size = new Size(120, 20);
+            Author_lbl.Location = new Point(260, 12);
+            this.Controls.Add(Author_lbl);
         }
     }
 
@@ -156,8 +191,10 @@ namespace MyGame
                 _objs[i] = new Rain(new Point(count, 10), new Point(10, 10+count/50*10), new Size(2, 2));
                 
             }
-        }
-    }
+        }
+
+    }
+
     /// <summary>
     /// Базовый класс на примере кругов
     /// </summary>
@@ -193,22 +230,28 @@ namespace MyGame
             if (Pos.Y < 0) Dir.Y = -Dir.Y;
             if (Pos.Y > Game.Height) Dir.Y = -Dir.Y;
         }
-    }    class Star : BaseObject //наследуем
+    }
+
+    class Star : BaseObject //наследуем
     {
         public Star(Point pos, Point dir, Size size) : base(pos, dir, size) //делаем конструктор на основе базового класса
         {
-        }        
+        }
+        
         // переопределяем методы 
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawLine(Pens.Red, Pos.X, Pos.Y, Pos.X + Size.Width, Pos.Y + Size.Height);
             Game.Buffer.Graphics.DrawLine(Pens.Red, Pos.X + Size.Width, Pos.Y, Pos.X, Pos.Y + Size.Height);
-        }        public override void Update()
+        }
+        public override void Update()
         {
             Pos.X = Pos.X - Dir.X;
             if (Pos.X < 0) Pos.X = Game.Width + Size.Width;
         }
-    }    class Square : BaseObject
+    }
+
+    class Square : BaseObject
     {
         public Square(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
@@ -216,7 +259,8 @@ namespace MyGame
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawRectangle(Pens.Yellow, Pos.X, Pos.Y, Size.Width, Size.Height);
-        }        public override void Update()
+        }
+        public override void Update()
         {
             Pos.X = Pos.X - Dir.X;
             Pos.Y = Pos.Y - Dir.Y;
@@ -225,11 +269,14 @@ namespace MyGame
         }
 
 
-    }    class Rain : BaseObject
+    }
+
+    class Rain : BaseObject
     {
         public Rain(Point pos, Point dir, Size size) : base(pos, dir, size) //делаем конструктор на основе базового класса
         {
-        }
+        }
+
         // переопределяем методы 
         public override void Draw()
         {
@@ -238,14 +285,17 @@ namespace MyGame
             Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + 40, Pos.Y + 40, Pos.X + 40 + Size.Width, Pos.Y + 40 + Size.Height);
             Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + 60, Pos.Y + 60, Pos.X + 60 + Size.Width, Pos.Y + 60 + Size.Height);
             Game.Buffer.Graphics.DrawLine(Pens.White, Pos.X + 80, Pos.Y + 80, Pos.X + 80 + Size.Width, Pos.Y + 80 + Size.Height);
-        }        public override void Update()
+        }
+        public override void Update()
         {
             Pos.Y = Pos.Y + Dir.Y;
             if (Pos.Y > Game.Height) Pos.Y = Size.Height;
             Pos.X = Pos.X + Dir.X;
             if (Pos.X > Game.Width) Pos.X = Size.Width;
         }
-    }    class Grid : BaseObject
+    }
+
+    class Grid : BaseObject
     {
         public Grid(Point pos, Point dir, Size size) : base(pos, dir, size)
         {
@@ -253,7 +303,8 @@ namespace MyGame
         public override void Draw()
         {
             Game.Buffer.Graphics.DrawRectangle(Pens.Blue, Pos.X, Pos.Y, Size.Width, Size.Height);
-        }        public override void Update()
+        }
+        public override void Update()
         {
             Pos.X = Pos.X;
             Pos.Y = Pos.Y;
@@ -318,5 +369,7 @@ namespace MyGame
                 }
             }
         }
-    }  
+    }
+  
+
 }
