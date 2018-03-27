@@ -1,0 +1,7 @@
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\bin\Debug\Task_1.exe.config
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\bin\Debug\Task_1.exe
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\bin\Debug\Task_1.pdb
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\obj\Debug\Game_Asteroid.csprojResolveAssemblyReference.cache
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\obj\Debug\Game_Asteroid.csproj.CoreCompileInputs.cache
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\obj\Debug\Task_1.exe
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_1\Task_1\obj\Debug\Task_1.pdb

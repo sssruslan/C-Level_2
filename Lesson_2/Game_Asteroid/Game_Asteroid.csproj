@@ -4,7 +4,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{BB33E01F-AA8C-473E-AC0F-3496FFCED443}</ProjectGuid>
+    <ProjectGuid>{3241281A-F7ED-4193-8744-95A8F72B6E33}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>Task_1</RootNamespace>
     <AssemblyName>Task_1</AssemblyName>
@@ -44,12 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GameObjectException.cs" />
+    <Compile Include="ICollision.cs" />
+    <Compile Include="Объекты\Asteroid.cs" />
     <Compile Include="Объекты\BaseObject.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Динамика фона\Game.cs" />
-    <Compile Include="Объекты\Grid.cs" />
+    <Compile Include="Объекты\Bullet.cs" />
+    <Compile Include="Объекты\Planet.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Объекты\Rain.cs" />

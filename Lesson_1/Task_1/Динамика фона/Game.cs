@@ -12,11 +12,11 @@ namespace Task_1
     {
         private static BufferedGraphicsContext _context;
         public static BufferedGraphics Buffer;
-        // Свойства
-        // Ширина и высота игрового поля
         public static int Width { get; set; }
         public static int Height { get; set; }
-        public static BaseObject[] _objs; // объявляем массив объектов
+        public static BaseObject[] _objs;
+        public static Bullet _bullet;
+        public static Asteroid[] _asteroids;
 
         static Game()
         {
@@ -27,25 +27,25 @@ namespace Task_1
         /// </summary>
         /// <param name="form">К какой форме привязываемся</param>
         public static void Init(Form form)
-        {
-            // Графическое устройство для вывода графики
-            Graphics g;
-            // предоставляет доступ к главному буферу графического контекста для текущего приложения
-            _context = BufferedGraphicsManager.Current;
-            g = form.CreateGraphics();// Создаём объект - поверхность рисования и связываем его с формой
-                                      // Запоминаем размеры формы
-            Width = form.Width;
-            Height = form.Height;
-            // Связываем буфер в памяти с графическим объектом.
-            // для того, чтобы рисовать в буфере
-            Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
+            {
+                // Графическое устройство для вывода графики
+                Graphics g;
+                // предоставляет доступ к главному буферу графического контекста для текущего приложения
+                _context = BufferedGraphicsManager.Current;
+                g = form.CreateGraphics();// Создаём объект - поверхность рисования и связываем его с формой
+                                          // Запоминаем размеры формы
+                Width = form.Width;
+                Height = form.Height;
+                // Связываем буфер в памяти с графическим объектом.
+                // для того, чтобы рисовать в буфере
+                Buffer = _context.Allocate(g, new Rectangle(0, 0, Width, Height));
 
-            //Load();
+                //Load();
 
-            Timer timer = new Timer { Interval = 100 };
-            timer.Start();
-            timer.Tick += Timer_Tick;
-        }
+                Timer timer = new Timer { Interval = 100 };
+                timer.Start();
+                timer.Tick += Timer_Tick;
+            }
 
         /// <summary>
         /// Таймер для прорисовки и обновления
@@ -61,17 +61,15 @@ namespace Task_1
         /// </summary>
         public static void Draw()
         {
-            // Проверяем вывод графики
-            Buffer.Graphics.Clear(Color.Black);
-            Buffer.Graphics.DrawRectangle(Pens.White, new Rectangle(100, 100, 200, 200));
-            Buffer.Graphics.FillEllipse(Brushes.Wheat, new Rectangle(100, 100, 200, 200));
-            Buffer.Render();
             Buffer.Graphics.Clear(Color.Black);
             foreach (BaseObject obj in _objs)
                 obj.Draw();
+            foreach (Asteroid obj in _asteroids)
+                obj.Draw();
+            _bullet.Draw();
             Buffer.Render();
         }
-
+        
         /// <summary>
         /// Обновляем все объекты
         /// </summary>
@@ -79,47 +77,53 @@ namespace Task_1
         {
             foreach (BaseObject obj in _objs)
                 obj.Update();
+            foreach (Asteroid a in _asteroids)
+            {
+                a.Update();
+                if (a.Collision(_bullet))
+                {
+                    System.Media.SystemSounds.Hand.Play();
+                    a.Power = 0;
+                    _bullet.Power = 0;
+                }
+            }
+            _bullet.Update();
         }
 
         /// <summary>
-        /// Создаем массив из 80 объектов и далее запускаем их со сдвигом позиции
+        /// Создаем массив из 191 объекта и далее запускаем их со сдвигом позиции
         /// </summary>
         public virtual void Load()
         {
-            _objs = new BaseObject[80];
-            for (int i = 0; i < _objs.Length / 4; i++)
-            {
-                if (i < 10)
-                {
-                    _objs[i] = new BaseObject(new Point(600, i * 20), new Point(15 - 1 * i, 15 - 1 * i), new Size(i, i));
-                }
-                else if (i >= 10 && i <= 20)
-                {
-                    _objs[i] = new BaseObject(new Point(600, i * 30), new Point(20 - 2 * i, 20 - 1 * i), new Size(i, i));
-                }
-                else
-                {
-                    _objs[i] = new BaseObject(new Point(600, i * 40), new Point(30 - 1 * i, 30 - 2 * i), new Size(i, i));
-                }
-            }
+            _bullet = new Bullet(new Point(0, 200), new Point(5, 0), new Size(4, 1));
+            _asteroids = new Asteroid[3];
+            _objs = new BaseObject[191];
+            Random rnd1 = new Random(DateTime.Now.Millisecond);
+            Random rnd2 = new Random(DateTime.Now.Millisecond + 1);
+            int dir_X, dir_Y;
 
-            for (int i = _objs.Length / 4; i < 2 * _objs.Length / 4; i++)
-            {
-                _objs[i] = new Star(new Point(600, i * 10), new Point(i / 2, 0), new Size(i / 3, i / 3));
-            }
-
-            for (int i = 2 * _objs.Length / 4; i < 3 * _objs.Length / 4; i++)
+            for (int i = 0; i < 30; i++)
             {
                 _objs[i] = new Square(new Point(i * 5, i * 5), new Point(20, 20), new Size(1, 1));
             }
-
-            int count = 0;
-            for (int i = 3 * _objs.Length / 4; i < _objs.Length; i++)
+            for (int i = 30; i < 190; i++)
             {
-                count += 50;
-                _objs[i] = new Rain(new Point(count, 10), new Point(10, 10 + count / 50 * 10), new Size(2, 2));
+                dir_X = rnd1.Next(-20, 20);
+                dir_Y = rnd2.Next(-20, 20);               
+                _objs[i] = new Rain(new Point(Game.Width / 2, Game.Height / 2), new Point(dir_X, dir_Y), new Size(1, 1));
 
             }
+            for (int i = 190; i < 191; i++)
+            {
+                _objs[i] = new Planet(new Point(300, 300), new Point(rnd1.Next(1, 10), rnd2.Next(1, 10)), new Size(50, 50));
+            }
+
+            for (var i = 0; i < _asteroids.Length; i++)
+            {
+                int r = rnd1.Next(5, 50);
+                _asteroids[i] = new Asteroid(new Point(600, rnd1.Next(0, Game.Height)), new Point(-r / 5, r), new Size(r, r));
+            }
+
         }
 
     }

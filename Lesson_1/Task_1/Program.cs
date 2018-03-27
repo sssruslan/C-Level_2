@@ -23,25 +23,31 @@ namespace Task_1
     {
         static void Main(string[] args)
         {
-            //Form form = new Form();
-            //Game game = new Game();
-            //form.Width = 800;
-            //form.Height = 600;
-            //Game.Init(form);
-            //game.Load(); // ссылаемся на объект, т.к. метод виртуал
-            //form.Show();
-            //Game.Draw();
-            //Application.Run(form);
+            Form1 form = new Form1
+            {
+                Width = Screen.PrimaryScreen.Bounds.Width,
+                Height = Screen.PrimaryScreen.Bounds.Height
+            };                      
 
-            Form1 form = new Form1();
-            SplashScreen ss_game = new SplashScreen();
-            form.Width = 800;
-            form.Height = 600;
-            SplashScreen.Init(form);
-            ss_game.Load(); // ссылаемся на объект, т.к. метод виртуал
+            try
+            {
+                if (form.Width > 1000 || form.Width < 0 || form.Height > 1000 || form.Height < 0)
+                {
+                    throw new ArgumentOutOfRangeException();
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                Console.WriteLine(form.Width + " " + form.Height);
+                Console.WriteLine(e.Message);
+            }
+
+            Game game = new Game();
+            Game.Init(form);
             form.Show();
-            SplashScreen.Draw();
+            game.Load();
+            Game.Draw();
             Application.Run(form);
-        }
+        }        
     }
 }
