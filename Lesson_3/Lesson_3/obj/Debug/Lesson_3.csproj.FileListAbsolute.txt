@@ -1,0 +1,6 @@
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\bin\Debug\Lesson_3.exe.config
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\bin\Debug\Lesson_3.exe
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\bin\Debug\Lesson_3.pdb
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\obj\Debug\Lesson_3.csproj.CoreCompileInputs.cache
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\obj\Debug\Lesson_3.exe
+D:\Git\C#\GeekBrains\C# Level_2\Lesson_3\Lesson_3\obj\Debug\Lesson_3.pdb
